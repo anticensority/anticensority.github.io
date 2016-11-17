@@ -63,6 +63,7 @@ const renderLinks = (url) => `
   <h3>Веб-прокси</h3>
   <ol>
     <li><a href="https://www.hidemyass.com/proxy">Hide my ass [COPY]</a></li>
+    <li><a href="https://hidester.com/proxy/">Hidester [COPY]</a></li>
     <li><a href="https://proxy-nl.hide.me/go.php?u=${url}">hide.me [RELOAD, GLYPE]</a></li>
     <li><a href="http://anonymouse.org/cgi-bin/anon-www.cgi/${url}">AnonyMouse [HTTP]</a></li>
     <li><a href="https://webproxy.vpnbook.com/browse.php?u=${url}">vpnbook [RELOAD, GLYPE]</a></li>
@@ -75,9 +76,10 @@ const renderLinks = (url) => `
   </div>
 
   <div>
-  <h3>Мобильные версии</h3>
+  <h3>Сервисы Google</h3>
   <ol>
     <li><a href="http://www.google.ie/gwt/x?u=${url}">Google Mobile</a></li>
+    <li><a href="https://translate.google.com/translate?hl=&sl=en&tl=ru&anno=2&sandbox=1&u=${url}">Google Translate</a></li>
   </ol>
   </div>
 
@@ -85,8 +87,9 @@ const renderLinks = (url) => `
     <h3>Из кэша поисковиков</h3>
     <ol>
       <li><a href="http://webcache.googleusercontent.com/search?q=cache:${url}">Google</a></li>
-      <li><a href="https://search.yahoo.com/search?p=url:${url}">Yahoo</a></li>
       <li><a href="https://www.bing.com/search?q=url:${url}">Bing</a></li>
+      <li><a href="https://yandex.ru/search/?text=site:${url}">Yandex</a></li>
+      <li><a href="https://search.yahoo.com/search?p=url:${url}">Yahoo</a></li>
       <li><a href="http://viewcached.com/${url}">viewcached.com</a></li>
       <li><a href="http://cachedview.com">cachedview.com [COPY]</a></li>
     </ol>
@@ -116,21 +119,34 @@ const renderLinks = (url) => `
   <h3>Расширения браузера</h3>
   <ol>
     <li>
-      <a href="https://fri-gate.org">FriGate</a> |
-      <a href="https://chrome.google.com/webstore/detail/mbacbcfdfaapbcnlnbmciiaakomhkbkb">WebStore</a>
+      <a href="https://fri-gate.org">FriGate</a>
+      | <a href="https://chrome.google.com/webstore/detail/mbacbcfdfaapbcnlnbmciiaakomhkbkb">WebStore</a>
     </li>
     <li><a href="https://chrome.google.com/webstore/detail/pfmgfdlgomnbgkofeojodiodmgpgmkac">Экономия трафика Google [только HTTP]</a></li>
     <li><a href="https://chrome.google.com/webstore/detail/npgcnondjocldhldegnakemclmfkngch">Обход блокировок Рунета</a></li>
-    <li><a href="https://addons.mozilla.org/en-US/firefox/addon/anticenz/">AntiCenz для FireFox</a></li>
+    <li>
+      <a href="https://tunnello.com">Tunnelo [BLOCKED]</a>
+      | <a href="https://chrome.google.com/webstore/detail/hoapmlpnmpaehilehggglehfdlnoegck">WebStore</a>
+    </li>
+    <li>
+      <a href="http://northghost.com">Touch VPN</a>
+      | <a href="https://chrome.google.com/webstore/detail/bihmplhobchoageeokmgbdihknkjbknd">WebStore</a>
+    </li>
+    <li>
+      <a href="https://hidester.com/proxy/">Hidester</a>
+      | <a href="https://chrome.google.com/webstore/detail/dpkpacmindnbflfmbigkenceicnpjmhh">WebStore</a>
+    </li>
+    <li><a href="https://addons.mozilla.org/en-US/firefox/addon/anticenz/">AntiCenz для FireFox</a></li>    
   </ol>
   </div>
 
   <div>
-  <h3>Другие</h3>
+  <h3>VPN, PAC, Tor</h3>
   <ol>
-    <li><a href="https://antizapret.prostovpn.org">АнтиЗапрет VPN + PAC + расширение Chrome</a></li>
-    <li><a href="https://anticenz.org">АнтиЦенз PAC + расширение FireFox</a></li>
+    <li><a href="https://antizapret.prostovpn.org">АнтиЗапрет VPN + PAC + Chrome</a></li>
+    <li><a href="https://anticenz.org">АнтиЦенз PAC + FireFox</a></li>
     <li><a href="https://cyberghostvpn.com">CyberGhost VPN</a></li>
+    <li><a href="https://torproject.org">Tor</a></li>
   </ol>
   </div>
   
@@ -145,6 +161,8 @@ const renderLinks = (url) => `
 	    </form>
   	  <script>document.querySelector('.tracker-form').submit()<\/script>
 		">Сайт доступен из-за границы? host-tracker</a></li>
+    <li><a href="https://antizapret.info/index.php?search=${url}">Искать в реестре AnitZapret.info</a></li>
+    <li><a href="https://reestr.rublacklist.net/search/?q=${new URL(url).hostname}">Искать в реестре RuBlackList.net</a></li>
   </ol>
   </div>
 `;
