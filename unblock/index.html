@@ -10,7 +10,7 @@
         border: solid #aaa;
         border-width: 1px 0 0 0;
       }
-      #output, footer input {
+      #output, .bookmark input {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
       }
       main {
@@ -28,16 +28,14 @@
       #output div h3 {
         margin-top: 0;
       }
-      footer {
-        margin: 0.5em 0 0 1em;
-      }
-      footer input {
-        color: navy;
+      .bookmark input {
+        color: black;
         text-decoration: none;
         border: 0;
         outline: none;
         cursor: pointer;
-        font-size: 1em;
+        font-size: 0.9em;
+        margin-top: 0.3em;
       }
     </style>
   </head>
@@ -63,11 +61,7 @@ document.body.innerHTML = `
     </div>
     <input type="submit" value="Обновить ссылки">
     <button class="copy-button">Копировать</button>
-    <div>
-      <code>[COPY] — нужно будет ввести адрес</code>
-    </div>
   </form>
-  <hr/>
   <div id="output"></div>
 `;
 
@@ -76,6 +70,13 @@ const renderLinks = (url) => {
   const hostname = new URL(url).hostname;
   const shortUrl = 'https://rebrand.ly/unblock/' + location.hash;
   return `
+  <div >
+    <code class='bookmark'>
+      <input type="url" readonly size="${shortUrl.length}" onclick="this.select()" value="${shortUrl}"/><br/>
+      [COPY] — нужно будет ввести адрес
+    </code>
+  </div>  
+  <hr/>
   <main>
     <div>
     <h3>Веб-прокси</h3>
@@ -202,10 +203,6 @@ const renderLinks = (url) => {
     </ol>
     </div>
   </main>
-
-  <footer>
-    <span>Короткая&nbsp;ссылка:&nbsp;</span><input type="url" readonly size="${shortUrl.length}" onclick="this.select()" value="${shortUrl}"/>
-  </footer>
 `};
 
 const renderOutput = () => {
