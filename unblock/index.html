@@ -10,12 +10,14 @@
         border: solid #aaa;
         border-width: 1px 0 0 0;
       }
-      #output {
+      #output, footer input {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+      }
+      main {
         display: flex;
         flex-wrap: wrap;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"
       }
-      #output div {
+      #output main div {
         border: 1px solid #ddd;
         margin: 0em 0em 1em 1em;
         padding: 1em;
@@ -25,6 +27,17 @@
       }
       #output div h3 {
         margin-top: 0;
+      }
+      footer {
+        margin: 0.5em 0 0 1em;
+      }
+      footer input {
+        color: navy;
+        text-decoration: none;
+        border: 0;
+        outline: none;
+        cursor: pointer;
+        font-size: 1em;
       }
     </style>
   </head>
@@ -61,131 +74,138 @@ document.body.innerHTML = `
 const renderLinks = (url) => {
 
   const hostname = new URL(url).hostname;
+  const shortUrl = 'https://rebrand.ly/unblock/' + location.hash;
   return `
-  <div>
-  <h3>Веб-прокси</h3>
-  <ol>
-    <li><a href="https://www.hidemyass.com/proxy">Hide my ass [COPY]</a></li>
-    <li><a href="https://hidester.com/proxy/">Hidester [COPY]</a></li>
-    <li><a href="https://proxy-nl.hide.me/go.php?u=${url}">hide.me [RELOAD, GLYPE]</a></li>
-    <li><a href="http://anonymouse.org/cgi-bin/anon-www.cgi/${url}">AnonyMouse [HTTP]</a></li>
-    <li><a href="https://webproxy.vpnbook.com/browse.php?u=${url}">vpnbook [RELOAD, GLYPE]</a></li>
-    <li><a href="https://webproxy.com/browse.php?u=${url}">webproxy.com [RELOAD, GLYPE]</a></li>
-    <li><a href="https://unblock-pinterestproxy.com/browse.php?u=${url}">Unblock Pinterest Proxy [RELOAD, GLYPE]</a></li>
-    <li><a href="http://www.mysafesurfing.com/browse.php?u=${url}">My Safe Surfing [RELOAD, HTTP, GLYPE]</a></li>
-    <li><a href="https://kproxy.com">kProxy [BLOCKED]</a></li>
-    <li><a href="https://www.google.com/search?q=webproxy">Другие</a></li>
-  </ol>
-  </div>
-
-  <div>
-  <h3>Сервисы Google</h3>
-  <ol>
-    <li><a href="https://translate.google.com/translate?hl=&sl=en&tl=ru&anno=2&sandbox=1&u=${url}">Google Translate</a></li>
-    <li><a href="http://www.google.ie/gwt/x?u=${url}">Google Mobile</a></li>
-  </ol>
-  </div>
-
-  <div>
-    <h3>Из кэша поисковиков</h3>
+  <main>
+    <div>
+    <h3>Веб-прокси</h3>
     <ol>
-      <li><a href="http://webcache.googleusercontent.com/search?q=cache:${url}">Google</a></li>
-      <li><a href="https://www.bing.com/search?q=url:${url}">Bing</a></li>
-      <li><a href="https://yandex.ru/search/?text=site:${url}">Yandex</a></li>
-      <li><a href="https://search.yahoo.com/search?p=url:${url}">Yahoo</a></li>
-      <li><a href="http://viewcached.com/${url}">viewcached.com</a></li>
-      <li><a href="http://cachedview.com">cachedview.com [COPY]</a></li>
+      <li><a href="https://www.hidemyass.com/proxy">Hide my ass [COPY]</a></li>
+      <li><a href="https://hidester.com/proxy/">Hidester [COPY]</a></li>
+      <li><a href="https://proxy-nl.hide.me/go.php?u=${url}">hide.me [RELOAD, GLYPE]</a></li>
+      <li><a href="http://anonymouse.org/cgi-bin/anon-www.cgi/${url}">AnonyMouse [HTTP]</a></li>
+      <li><a href="https://webproxy.vpnbook.com/browse.php?u=${url}">vpnbook [RELOAD, GLYPE]</a></li>
+      <li><a href="https://webproxy.com/browse.php?u=${url}">webproxy.com [RELOAD, GLYPE]</a></li>
+      <li><a href="https://unblock-pinterestproxy.com/browse.php?u=${url}">Unblock Pinterest Proxy [RELOAD, GLYPE]</a></li>
+      <li><a href="http://www.mysafesurfing.com/browse.php?u=${url}">My Safe Surfing [RELOAD, HTTP, GLYPE]</a></li>
+      <li><a href="https://kproxy.com">kProxy [BLOCKED]</a></li>
+      <li><a href="https://www.google.com/search?q=webproxy">Другие</a></li>
     </ol>
-  </div>
+    </div>
 
-  <div>
-  <h3>Из архивов Интернета</h3>
-  <ol>
-    <li><a href="http://web.archive.org/web/*/${url}">web.archive.org</a></li>
-    <li><a href="http://archive.is/${url}">archive.is</a></li>
-    <li><a href="http://timetravel.mementoweb.org">Momento Time Travel [COPY]</a></li>
-    <li><a href="http://webcitation.org/query.php?url=${url}">Web Citation</a></li>
-  </ol>
-  </div>
+    <div>
+    <h3>Сервисы Google</h3>
+    <ol>
+      <li><a href="https://translate.google.com/translate?hl=&sl=en&tl=ru&anno=2&sandbox=1&u=${url}">Google Translate</a></li>
+      <li><a href="http://www.google.ie/gwt/x?u=${url}">Google Mobile</a></li>
+    </ol>
+    </div>
 
-  <div>
-  <h3>Снимки страниц</h3>
-  <ol>
-    <li><a href="https://screenshotmachine.com">Screenshot Machine [COPY]</a></li>
-    <li><a href="https://www.url2png.com">url2png [COPY]</a></li>
-    <li><a href="http://site2pic.com/">site2pic [COPY]</a></li>
-    <li><a href="https://browshot.com">brow shot [COPY]</a></li>
-  </ol>
-  </div>
+    <div>
+      <h3>Из кэша поисковиков</h3>
+      <ol>
+        <li><a href="http://webcache.googleusercontent.com/search?q=cache:${url}">Google</a></li>
+        <li><a href="https://www.bing.com/search?q=url:${url}">Bing</a></li>
+        <li><a href="https://yandex.ru/search/?text=site:${url}">Yandex</a></li>
+        <li><a href="https://search.yahoo.com/search?p=url:${url}">Yahoo</a></li>
+        <li><a href="http://viewcached.com/${url}">viewcached.com</a></li>
+        <li><a href="http://cachedview.com">cachedview.com [COPY]</a></li>
+      </ol>
+    </div>
 
-  <div>
-  <h3>Расширения браузера</h3>
-  <ol>
-    <li><a href="https://chrome.google.com/webstore/detail/pfmgfdlgomnbgkofeojodiodmgpgmkac">Chrome: Экономия трафика Google [только HTTP]</a></li>
-    <li>
-      <a href="https://fri-gate.org">FriGate</a>
-      | <a href="https://chrome.google.com/webstore/detail/mbacbcfdfaapbcnlnbmciiaakomhkbkb">WebStore</a>
-      | <a href="https://addons.mozilla.org/en-US/firefox/addon/frigate/">FireFox</a>
-      | <a href="https://fri-gate.org/frigate.nex">Opera</a>
-    </li>
-    <li><a href="https://chrome.google.com/webstore/detail/npgcnondjocldhldegnakemclmfkngch">Chrome: Обход блокировок Рунета</a></li>
-    <li>
-      <a href="https://tunnello.com">Tunnelo [BLOCKED]</a>
-      | <a href="https://chrome.google.com/webstore/detail/hoapmlpnmpaehilehggglehfdlnoegck">WebStore</a>
-    </li>
-    <li>
-      <a href="http://northghost.com">Touch VPN</a>
-      | <a href="https://chrome.google.com/webstore/detail/bihmplhobchoageeokmgbdihknkjbknd">WebStore</a>
-    </li>
-    <li>
-      <a href="https://hidester.com/proxy/">Hidester</a>
-      | <a href="https://chrome.google.com/webstore/detail/dpkpacmindnbflfmbigkenceicnpjmhh">WebStore</a>
-    </li>
-    <li>
-      <a href="https://kproxy.com">KProxy [BLOCKED]</a>
-      | <a href="https://chrome.google.com/webstore/detail/gdocgbfmddcfnlnpmnghmjicjognhonm">WebStore</a>
-      | <a href="https://addons.mozilla.org/en-US/firefox/addon/kproxy-extension/">FireFox</a>
-    </li>
-    <li>
-      <a href="https://anticenz.org">AntiCenz</a>
-      | <a href="https://addons.mozilla.org/en-US/firefox/addon/anticenz/">FireFox</a>
-    </li>
-    <li><a href="https://www.opera.com/ru/computer/features/free-vpn">Opera VPN</a></li>
-    <li><a href="https://chrome.google.com/webstore/detail/dfdhngcahhplaibahkkjhdklhihbaikl">Chrome: Kronymous (Tor)</a></li>
-  </ol>
-  </div>
+    <div>
+    <h3>Из архивов Интернета</h3>
+    <ol>
+      <li><a href="http://web.archive.org/web/*/${url}">web.archive.org</a></li>
+      <li><a href="http://archive.is/${url}">archive.is</a></li>
+      <li><a href="http://timetravel.mementoweb.org">Momento Time Travel [COPY]</a></li>
+      <li><a href="http://webcitation.org/query.php?url=${url}">Web Citation</a></li>
+    </ol>
+    </div>
 
-  <div>
-  <h3>VPN, PAC, Tor</h3>
-  <ol>
-    <li><a href="https://antizapret.prostovpn.org">АнтиЗапрет VPN + PAC + Chrome</a></li>
-    <li><a href="https://anticenz.org">АнтиЦенз PAC + FireFox</a></li>
-    <li><a href="https://torproject.org">Tor</a></li>
-    <li><a href="https://cyberghostvpn.com">CyberGhost VPN</a></li>
-  </ol>
-  </div>
-  
-  <div>
-  <h3>Инструменты</h3>
-  Сайт доступен из-за границы?
-  <ol>
-    <li><a href="http://isup.me/${url}">IsUp.me</a></li>
-    <li><a href="
-      data:text/html;charset=utf8,<title>Запрашиваю...</title>
-      <form class='tracker-form' method='POST' action='https://www.host-tracker.com/ru/InstantCheck/Create'>
-      <input name='InstantCheckUrl' value='${url}' type='hidden'>
-      </form>
-      <script>document.querySelector('.tracker-form').submit()<\/script>
-    ">host-tracker.com</a>
-    </li>
-    <li><a href="http://www.isitdownrightnow.com/${hostname}.html">IsItDownRightNow.com</a></li>
-  </ol>
-  Искать сайт в реестре
-  <ol>
-    <li><a href="https://antizapret.info/index.php?search=${url}">AnitZapret.info</a></li>
-    <li><a href="https://reestr.rublacklist.net/search/?q=${hostname}">RuBlackList.net</a></li>
-  </ol>
-  </div>
+    <div>
+    <h3>Снимки страниц</h3>
+    <ol>
+      <li><a href="https://screenshotmachine.com">Screenshot Machine [COPY]</a></li>
+      <li><a href="https://www.url2png.com">url2png [COPY]</a></li>
+      <li><a href="http://site2pic.com/">site2pic [COPY]</a></li>
+      <li><a href="https://browshot.com">brow shot [COPY]</a></li>
+    </ol>
+    </div>
+
+    <div>
+    <h3>Расширения браузера</h3>
+    <ol>
+      <li><a href="https://chrome.google.com/webstore/detail/pfmgfdlgomnbgkofeojodiodmgpgmkac">Chrome: Экономия трафика Google [только HTTP]</a></li>
+      <li>
+        <a href="https://fri-gate.org">FriGate</a>
+        | <a href="https://chrome.google.com/webstore/detail/mbacbcfdfaapbcnlnbmciiaakomhkbkb">WebStore</a>
+        | <a href="https://addons.mozilla.org/en-US/firefox/addon/frigate/">FireFox</a>
+        | <a href="https://fri-gate.org/frigate.nex">Opera</a>
+      </li>
+      <li><a href="https://chrome.google.com/webstore/detail/npgcnondjocldhldegnakemclmfkngch">Chrome: Обход блокировок Рунета</a></li>
+      <li>
+        <a href="https://tunnello.com">Tunnelo [BLOCKED]</a>
+        | <a href="https://chrome.google.com/webstore/detail/hoapmlpnmpaehilehggglehfdlnoegck">WebStore</a>
+      </li>
+      <li>
+        <a href="http://northghost.com">Touch VPN</a>
+        | <a href="https://chrome.google.com/webstore/detail/bihmplhobchoageeokmgbdihknkjbknd">WebStore</a>
+      </li>
+      <li>
+        <a href="https://hidester.com/proxy/">Hidester</a>
+        | <a href="https://chrome.google.com/webstore/detail/dpkpacmindnbflfmbigkenceicnpjmhh">WebStore</a>
+      </li>
+      <li>
+        <a href="https://kproxy.com">KProxy [BLOCKED]</a>
+        | <a href="https://chrome.google.com/webstore/detail/gdocgbfmddcfnlnpmnghmjicjognhonm">WebStore</a>
+        | <a href="https://addons.mozilla.org/en-US/firefox/addon/kproxy-extension/">FireFox</a>
+      </li>
+      <li>
+        <a href="https://anticenz.org">AntiCenz</a>
+        | <a href="https://addons.mozilla.org/en-US/firefox/addon/anticenz/">FireFox</a>
+      </li>
+      <li><a href="https://www.opera.com/ru/computer/features/free-vpn">Opera VPN</a></li>
+      <li><a href="https://chrome.google.com/webstore/detail/dfdhngcahhplaibahkkjhdklhihbaikl">Chrome: Kronymous (Tor)</a></li>
+    </ol>
+    </div>
+
+    <div>
+    <h3>VPN, PAC, Tor</h3>
+    <ol>
+      <li><a href="https://antizapret.prostovpn.org">АнтиЗапрет VPN + PAC + Chrome</a></li>
+      <li><a href="https://anticenz.org">АнтиЦенз PAC + FireFox</a></li>
+      <li><a href="https://torproject.org">Tor</a></li>
+      <li><a href="https://cyberghostvpn.com">CyberGhost VPN</a></li>
+    </ol>
+    </div>
+
+    <div>
+    <h3>Инструменты</h3>
+    Сайт доступен из-за границы?
+    <ol>
+      <li><a href="http://isup.me/${url}">IsUp.me</a></li>
+      <li><a href="
+        data:text/html;charset=utf8,<title>Запрашиваю...</title>
+        <form class='tracker-form' method='POST' action='https://www.host-tracker.com/ru/InstantCheck/Create'>
+        <input name='InstantCheckUrl' value='${url}' type='hidden'>
+        </form>
+        <script>document.querySelector('.tracker-form').submit()<\/script>
+      ">host-tracker.com</a>
+      </li>
+      <li><a href="http://www.isitdownrightnow.com/${hostname}.html">IsItDownRightNow.com</a></li>
+    </ol>
+    Искать сайт в реестре
+    <ol>
+      <li><a href="https://antizapret.info/index.php?search=${url}">AnitZapret.info</a></li>
+      <li><a href="https://reestr.rublacklist.net/search/?q=${hostname}">RuBlackList.net</a></li>
+    </ol>
+    </div>
+  </main>
+
+  <footer>
+    <span>Короткая&nbsp;ссылка:&nbsp;</span><input type="url" readonly size="${shortUrl.length}" onclick="this.select()" value="${shortUrl}"/>
+  </footer>
 `};
 
 const renderOutput = () => {
@@ -251,6 +271,5 @@ else {
 urlInput.onfocus = function() { this.select() };
 document.querySelector('button.copy-button').onclick = () => { urlInput.focus(); document.execCommand('copy') };    
 </script>
-
   </body>
 </html>
