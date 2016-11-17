@@ -58,7 +58,10 @@ document.body.innerHTML = `
   <div id="output"></div>
 `;
 
-const renderLinks = (url) => `
+const renderLinks = (url) => {
+
+  const hostname = new URL(url).hostname;
+  return `
   <div>
   <h3>Веб-прокси</h3>
   <ol>
@@ -118,12 +121,14 @@ const renderLinks = (url) => `
   <div>
   <h3>Расширения браузера</h3>
   <ol>
+    <li><a href="https://chrome.google.com/webstore/detail/pfmgfdlgomnbgkofeojodiodmgpgmkac">Chrome: Экономия трафика Google [только HTTP]</a></li>
     <li>
       <a href="https://fri-gate.org">FriGate</a>
       | <a href="https://chrome.google.com/webstore/detail/mbacbcfdfaapbcnlnbmciiaakomhkbkb">WebStore</a>
+      | <a href="https://addons.mozilla.org/en-US/firefox/addon/frigate/">FireFox</a>
+      | <a href="https://fri-gate.org/frigate.nex">Opera</a>
     </li>
-    <li><a href="https://chrome.google.com/webstore/detail/pfmgfdlgomnbgkofeojodiodmgpgmkac">Экономия трафика Google [только HTTP]</a></li>
-    <li><a href="https://chrome.google.com/webstore/detail/npgcnondjocldhldegnakemclmfkngch">Обход блокировок Рунета</a></li>
+    <li><a href="https://chrome.google.com/webstore/detail/npgcnondjocldhldegnakemclmfkngch">Chrome: Обход блокировок Рунета</a></li>
     <li>
       <a href="https://tunnello.com">Tunnelo [BLOCKED]</a>
       | <a href="https://chrome.google.com/webstore/detail/hoapmlpnmpaehilehggglehfdlnoegck">WebStore</a>
@@ -136,7 +141,17 @@ const renderLinks = (url) => `
       <a href="https://hidester.com/proxy/">Hidester</a>
       | <a href="https://chrome.google.com/webstore/detail/dpkpacmindnbflfmbigkenceicnpjmhh">WebStore</a>
     </li>
-    <li><a href="https://addons.mozilla.org/en-US/firefox/addon/anticenz/">AntiCenz для FireFox</a></li>    
+    <li>
+      <a href="https://kproxy.com">KProxy [BLOCKED]</a>
+      | <a href="https://chrome.google.com/webstore/detail/gdocgbfmddcfnlnpmnghmjicjognhonm">WebStore</a>
+      | <a href="https://addons.mozilla.org/en-US/firefox/addon/kproxy-extension/">FireFox</a>
+    </li>
+    <li>
+      <a href="https://anticenz.org">AntiCenz</a>
+      | <a href="https://addons.mozilla.org/en-US/firefox/addon/anticenz/">FireFox</a>
+    </li>
+    <li><a href="https://www.opera.com/ru/computer/features/free-vpn">Opera VPN</a></li>
+    <li><a href="https://chrome.google.com/webstore/detail/dfdhngcahhplaibahkkjhdklhihbaikl">Chrome: Kronymous (Tor)</a></li>
   </ol>
   </div>
 
@@ -152,20 +167,26 @@ const renderLinks = (url) => `
   
   <div>
   <h3>Инструменты</h3>
+  Сайт доступен из-за границы?
   <ol>
-    <li><a href="http://isup.me/${url}">Сайт доступен из-за границы? isup.me</a></li>
+    <li><a href="http://isup.me/${url}">IsUp.me</a></li>
     <li><a href="
-			data:text/html;charset=utf8,<title>Запрашиваю...</title>
-	    <form class='tracker-form' method='POST' action='https://www.host-tracker.com/ru/InstantCheck/Create'>
-  	    <input name='InstantCheckUrl' value='${url}' type='hidden'>
-	    </form>
-  	  <script>document.querySelector('.tracker-form').submit()<\/script>
-		">Сайт доступен из-за границы? host-tracker</a></li>
-    <li><a href="https://antizapret.info/index.php?search=${url}">Искать в реестре AnitZapret.info</a></li>
-    <li><a href="https://reestr.rublacklist.net/search/?q=${new URL(url).hostname}">Искать в реестре RuBlackList.net</a></li>
+      data:text/html;charset=utf8,<title>Запрашиваю...</title>
+      <form class='tracker-form' method='POST' action='https://www.host-tracker.com/ru/InstantCheck/Create'>
+      <input name='InstantCheckUrl' value='${url}' type='hidden'>
+      </form>
+      <script>document.querySelector('.tracker-form').submit()<\/script>
+    ">host-tracker.com</a>
+    </li>
+    <li><a href="http://www.isitdownrightnow.com/${hostname}.html">IsItDownRightNow.com</a></li>
+  </ol>
+  Искать сайт в реестре
+  <ol>
+    <li><a href="https://antizapret.info/index.php?search=${url}">AnitZapret.info</a></li>
+    <li><a href="https://reestr.rublacklist.net/search/?q=${hostname}">RuBlackList.net</a></li>
   </ol>
   </div>
-`;
+`};
 
 const renderOutput = () => {
 
