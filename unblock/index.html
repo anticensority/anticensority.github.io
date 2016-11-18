@@ -24,37 +24,48 @@
             #635688 500px
           );
       }
+      header {
+        background: rgba(0,0,0,0.5);
+        color: white;
+      }
       .url-strip {
         font-size: 2em;
         display: flex;
-        color: white;
-        background: rgba(0,0,0,0.5);
+        margin-bottom: 0.2em;
       }      
       .url-input {
         background: transparent;
         border: 0;
-        color: inherit;
         outline: none;
-        font-size: 1em;        
         width: 100%;
+        margin: 0;
+        padding: 0;
+        color: inherit;
+        font: inherit;
+        font-style: inherit;
+        font-variant-ligatures: inherit;
+        font-variant-caps: inherit;
+        font-variant-numeric: inherit;
+        font-weight: inherit;
+        font-stretch: inherit;
+        font-size: inherit;
+        line-height: inherit;
+        font-family: inherit;        
       }
       :root {
-        --main-color: hotpink;
+        --url-color: pink;
       }
-      ::-webkit-input-placeholder /* Chrome/Opera/Safari */ { color: var(--main-color); }
-      ::-moz-placeholder /* Firefox 19+ */ { color: var(--main-color); }
-      :-ms-input-placeholder /* IE 10+ */ { color: var(--main-color); }
-      :-moz-placeholder /* Firefox 18- */ { color: var(--main-color); }
+      ::-webkit-input-placeholder /* Chrome/Opera/Safari */ { color: var(--url-color); }
+      ::-moz-placeholder /* Firefox 19+ */ { color: var(--url-color); }
+      :-ms-input-placeholder /* IE 10+ */ { color: var(--url-color); }
+      :-moz-placeholder /* Firefox 18- */ { color: var(--url-color); }
       ol {
         padding: 0 1em;
-      }
-      hr {
-        border: solid #aaa;
-        border-width: 1px 0 0 0;
       }
       main {
         display: flex;
         flex-wrap: wrap;
+        padding-top: 1em;
       }
       #output div {
         border: 1px solid #ddd;
@@ -71,9 +82,8 @@
         white-space: nowrap;
       }
       .short-icon {
-        color: pink;
+        color: var(--url-color);
         text-decoration: none;
-        vertical-align: top;
       }
     </style>
   </head>
@@ -87,7 +97,7 @@ const url = getHash();
 
 const renderPrompt = (url) => {
 
-  return `<a href="https://rebrand.ly/unblock/${location.hash}" onclick="return false" class="short-icon">§</a>#&nbsp;`
+  return `<a href="https://rebrand.ly/unblock/${location.hash}" onclick="copyToClipboard(this.href); return false;" class="short-icon" title="Копировать короткую ссылку">&nbsp;§&nbsp;</a>`
 
 };
 
@@ -95,11 +105,12 @@ document.body.innerHTML = `
   <header>
     <form class="url-form">
       <div class="url-strip">
+        <input style="display: none" id="for-copying"/>
         <span class="prompt">${renderPrompt()}</span>
         <input type="url" placeholder="пример: ${defaultUrl}" value="${url}" autofocus class="url-input"/>
       </div>
-      <input class='submit-button' type="submit" value="Обновить ссылки"/>
-      <button class="copy-button">Копировать</button>
+      <input class='submit-button' type="submit" value="Сгенерировать ссылки"/>
+      <button class="copy-button">Копировать URL</button>
       <code>[COPY] — нужно будет ввести адрес</code>
     </form>
   </header>
@@ -246,23 +257,11 @@ const renderOutput = () => {
 
 };
 
+// #### BEHAVIOUR (may be deffered) ####
+
 const urlInput = document.querySelector('input.url-input');
 
-const submitUrl = () => {
-
-  document.querySelector('.submit-button').click();
-  return;
-  setTimeout( () => {
-  
-  console.log('submitUrl');
-  if( urlInput.checkValidity() ) {
-    console.log('VALIDDDD, SUMITING>..');
-    urlInput.form.onsubmit();
-  }
-  
-  }, 10);
-
-};
+const submitUrl = () => document.querySelector('.submit-button').click();
 
 urlInput.form.onsubmit = function () {
 
@@ -307,7 +306,27 @@ else {
 }
 
 urlInput.onfocus = function() { this.select() };
-document.querySelector('button.copy-button').onclick = () => { urlInput.focus(); document.execCommand('copy'); };
+document.querySelector('button.copy-button').onclick = () => { copyInputText(urlInput); return false; };
+
+const copyInputText = (input) => {
+
+  console.log(input.value);
+  input.focus();
+  input.setSelectionRange(0, input.value.length);
+  document.execCommand('copy');
+
+};
+
+const copyToClipboard = (text) => {
+
+  const input = document.querySelector('#for-copying');
+  input.value = text;
+  input.style.display = 'block';
+  copyInputText(input);
+  input.style.display = 'none';
+
+};
+
 </script>
   </body>
 </html>
