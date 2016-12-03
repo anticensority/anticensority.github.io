@@ -6,10 +6,10 @@
       html, body {
         margin: 0;
         padding: 0;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
       }
-      :root {
-        background-image: 
+      html {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+        background-image:
           repeating-linear-gradient(
             90deg,
             #09F911,
@@ -32,7 +32,7 @@
         font-size: 2em;
         display: flex;
         margin-bottom: 0.2em;
-      }      
+      }
       .url-input {
         background: transparent;
         border: 0;
@@ -50,7 +50,7 @@
         font-stretch: inherit;
         font-size: inherit;
         line-height: inherit;
-        font-family: inherit;        
+        font-family: inherit;
       }
       :root {
         --url-color: pink;
@@ -92,12 +92,13 @@
 'use strict';
 
 const defaultUrl = 'http://www.kasparov.ru/subject.php?id=189';
-const getHash = () => decodeURIComponent(window.location.hash.substring(1));
-const url = getHash();
+const getHash = () => decodeURI(window.location.hash.substring(1));
+const setHash = (value) => (window.location.hash = decodeURI(value));
+const origUrlEscaped = encodeURI(getHash());
 
-const renderPrompt = (url) => {
+const renderPrompt = (encodedUrl, moreEncodedUrl, rawUrlXss) => {
 
-  return `<a href="https://rebrand.ly/unblock/${location.hash}" onclick="copyToClipboard(this.href); return false;" class="short-icon" title="Копировать короткую ссылку">&nbsp;§&nbsp;</a>`
+  return `<a href="https://rebrand.ly/ac-unblock/#${encodedUrl}" onclick="copyToClipboard(this.href); return false;" class="short-icon" title="Копировать короткую ссылку">&nbsp;§&nbsp;</a>`
 
 };
 
@@ -107,7 +108,7 @@ document.body.innerHTML = `
       <div class="url-strip">
         <input style="display: none" id="for-copying"/>
         <span class="prompt">${renderPrompt()}</span>
-        <input type="url" placeholder="пример: ${defaultUrl}" value="${url}" autofocus class="url-input"/>
+        <input type="url" placeholder="пример: ${defaultUrl}" value="${origUrlEscaped}" autofocus class="url-input"/>
       </div>
       <input class='submit-button' type="submit" value="Сгенерировать ссылки"/>
       <button class="copy-button">Копировать URL</button>
@@ -117,22 +118,21 @@ document.body.innerHTML = `
   <main id="output"></main>
 `;
 
-const renderLinks = (url) => {
+const renderLinks = (encodedUrl, moreEncodedUrl, rawUrlXss) => {
 
-  const hostname = new URL(url).hostname;
-  const shortUrl = 'https://rebrand.ly/unblock/' + location.hash;
+  const hostname = new URL(encodedUrl).hostname;
   return `
     <div>
     <h3>Веб-прокси</h3>
     <ol>
       <li><a href="https://www.hidemyass.com/proxy">Hide my ass [COPY]</a></li>
       <li><a href="https://hidester.com/proxy/">Hidester [COPY]</a></li>
-      <li><a href="https://proxy-nl.hide.me/go.php?u=${url}">hide.me [RELOAD, GLYPE]</a></li>
-      <li><a href="http://anonymouse.org/cgi-bin/anon-www.cgi/${url}">AnonyMouse [HTTP]</a></li>
-      <li><a href="https://webproxy.vpnbook.com/browse.php?u=${url}">vpnbook [RELOAD, GLYPE]</a></li>
-      <li><a href="https://webproxy.com/browse.php?u=${url}">webproxy.com [RELOAD, GLYPE]</a></li>
-      <li><a href="https://unblock-pinterestproxy.com/browse.php?u=${url}">Unblock Pinterest Proxy [RELOAD, GLYPE]</a></li>
-      <li><a href="http://www.mysafesurfing.com/browse.php?u=${url}">My Safe Surfing [RELOAD, HTTP, GLYPE]</a></li>
+      <li><a href="https://proxy-nl.hide.me/go.php?u=${encodedUrl}">hide.me [RELOAD, GLYPE]</a></li>
+      <li><a href="http://anonymouse.org/cgi-bin/anon-www.cgi/${encodedUrl}">AnonyMouse [HTTP]</a></li>
+      <li><a href="https://webproxy.vpnbook.com/browse.php?u=${encodedUrl}">vpnbook [RELOAD, GLYPE]</a></li>
+      <li><a href="https://webproxy.com/browse.php?u=${encodedUrl}">webproxy.com [RELOAD, GLYPE]</a></li>
+      <li><a href="https://unblock-pinterestproxy.com/browse.php?u=${encodedUrl}">Unblock Pinterest Proxy [RELOAD, GLYPE]</a></li>
+      <li><a href="http://www.mysafesurfing.com/browse.php?u=${encodedUrl}">My Safe Surfing [RELOAD, HTTP, GLYPE]</a></li>
       <li><a href="https://kproxy.com">kProxy [BLOCKED]</a></li>
       <li><a href="https://www.google.com/search?q=webproxy">Другие</a></li>
     </ol>
@@ -141,19 +141,20 @@ const renderLinks = (url) => {
     <div>
     <h3>Сервисы Google</h3>
     <ol>
-      <li><a href="https://translate.google.com/translate?hl=&sl=en&tl=ru&anno=2&sandbox=1&u=${url}">Google Translate</a></li>
-      <li><a href="http://www.google.ie/gwt/x?u=${url}">Google Mobile</a></li>
+      <li><a href="https://translate.google.com/translate?hl=&sl=en&tl=ru&anno=2&sandbox=1&u=${encodedUrl}">Google Translate</a></li>
+      <li><a href="http://googleweblight.com/?lite_url=${moreEncodedUrl}&f=1&s=1&source=wax&host=www.google.ie">Google Mobile</a></li>
+      <!--li><a href="http://www.google.ie/gwt/x?u=${encodedUrl}">Google Mobile</a></li-->
     </ol>
     </div>
 
     <div>
       <h3>Из кэша поисковиков</h3>
       <ol>
-        <li><a href="http://webcache.googleusercontent.com/search?q=cache:${url}">Google</a></li>
-        <li><a href="https://www.bing.com/search?q=url:${url}">Bing</a></li>
-        <li><a href="https://yandex.ru/search/?text=site:${url}">Yandex</a></li>
-        <li><a href="https://search.yahoo.com/search?p=url:${url}">Yahoo</a></li>
-        <li><a href="http://viewcached.com/${url}">viewcached.com</a></li>
+        <li><a href="http://webcache.googleusercontent.com/search?q=cache:${encodedUrl}">Google</a></li>
+        <li><a href="https://www.bing.com/search?q=url:${encodedUrl}">Bing</a></li>
+        <li><a href="https://yandex.ru/search/?text=site:${encodedUrl}">Yandex</a></li>
+        <li><a href="https://search.yahoo.com/search?p=url:${encodedUrl}">Yahoo</a></li>
+        <li><a href="http://viewcached.com/${encodedUrl}">viewcached.com</a></li>
         <li><a href="http://cachedview.com">cachedview.com [COPY]</a></li>
       </ol>
     </div>
@@ -161,10 +162,10 @@ const renderLinks = (url) => {
     <div>
     <h3>Из архивов Интернета</h3>
     <ol>
-      <li><a href="http://web.archive.org/web/*/${url}">web.archive.org</a></li>
-      <li><a href="http://archive.is/${url}">archive.is</a></li>
+      <li><a href="http://web.archive.org/web/*/${encodedUrl}">web.archive.org</a></li>
+      <li><a href="http://archive.is/${encodedUrl}">archive.is</a></li>
       <li><a href="http://timetravel.mementoweb.org">Momento Time Travel [COPY]</a></li>
-      <li><a href="http://webcitation.org/query.php?url=${url}">Web Citation</a></li>
+      <li><a href="http://webcitation.org/query.php?url=${encodedUrl}">Web Citation</a></li>
     </ol>
     </div>
 
@@ -202,7 +203,7 @@ const renderLinks = (url) => {
         | <a href="https://chrome.google.com/webstore/detail/dpkpacmindnbflfmbigkenceicnpjmhh">WebStore</a>
       </li>
       <li>
-        <a href="https://kproxy.com">KProxy [BLOCKED]</a>
+        <a href="https://kproxy.com">KProxy [BLOCKED, COPY]</a>
         | <a href="https://chrome.google.com/webstore/detail/gdocgbfmddcfnlnpmnghmjicjognhonm">WebStore</a>
         | <a href="https://addons.mozilla.org/en-US/firefox/addon/kproxy-extension/">FireFox</a>
       </li>
@@ -229,11 +230,11 @@ const renderLinks = (url) => {
     <h3>Инструменты</h3>
     Сайт доступен из-за границы?
     <ol>
-      <li><a href="http://isup.me/${url}">IsUp.me</a></li>
+      <li><a href="http://isup.me/${encodedUrl}">IsUp.me</a></li>
       <li><a href="
         data:text/html;charset=utf8,<title>Запрашиваю...</title>
         <form class='tracker-form' method='POST' action='https://www.host-tracker.com/ru/InstantCheck/Create'>
-        <input name='InstantCheckUrl' value='${url}' type='hidden'>
+        <input name='InstantCheckUrl' value='${encodedUrl}' type='hidden'>
         </form>
         <script>document.querySelector('.tracker-form').submit()<\/script>
       ">host-tracker.com</a>
@@ -242,7 +243,7 @@ const renderLinks = (url) => {
     </ol>
     Искать сайт в реестре
     <ol>
-      <li><a href="https://antizapret.info/index.php?search=${url}">AnitZapret.info</a></li>
+      <li><a href="https://antizapret.info/index.php?search=${encodedUrl}">AnitZapret.info</a></li>
       <li><a href="https://reestr.rublacklist.net/search/?q=${hostname}">RuBlackList.net</a></li>
     </ol>
     </div>
@@ -251,9 +252,12 @@ const renderLinks = (url) => {
 const renderOutput = () => {
 
   console.log('RENDER');
-  const url = getHash() || defaultUrl;
-  document.querySelector('.prompt').innerHTML = renderPrompt( url );
-  document.getElementById('output').innerHTML = renderLinks( url );
+  const rawUrlXss = (getHash() || defaultUrl);
+  const encodedUrl = encodeURI(rawUrlXss);
+  const moreEncodedUrl = encodeURIComponent(rawUrlXss);
+  console.log('ENCODED:', encodedUrl);
+  document.querySelector('.prompt').innerHTML = renderPrompt( encodedUrl, moreEncodedUrl, rawUrlXss );
+  document.getElementById('output').innerHTML = renderLinks( encodedUrl, moreEncodedUrl, rawUrlXss );
 
 };
 
@@ -267,11 +271,12 @@ urlInput.form.onsubmit = function () {
 
   console.log('SUBMIT');
   const newHash = urlInput.value.trim();
+
   if( getHash() === newHash ) {
     renderOutput();
   }
   else {
-    window.location.hash = newHash;
+    setHash(newHash);
   }
   return false;
 
@@ -281,10 +286,10 @@ urlInput.oninvalid = () => {
 
   console.log('INVALID');
   if(/^https?:\/\//.test(event.target.value)) {
-    console.log('AAAA!');
+    console.log('BBB!', event.target.value);
     return true;
   }
-  window.location.hash = '#' + 'http://' + urlInput.value;
+  setHash('http://' + urlInput.value);
   return false;
 
 };
@@ -297,8 +302,8 @@ window.onhashchange = () => {
 
 }
 
-console.log('URL', url);
-if(url) {
+console.log('URL', origUrlEscaped);
+if(origUrlEscaped) {
   submitUrl();
 }
 else {
@@ -306,7 +311,12 @@ else {
 }
 
 urlInput.onfocus = function() { this.select() };
-document.querySelector('button.copy-button').onclick = () => { copyInputText(urlInput); return false; };
+document.querySelector('button.copy-button').onclick = () => {
+
+  copyInputText(urlInput);
+  return false;
+
+};
 
 const copyInputText = (input) => {
 
