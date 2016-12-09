@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Ошибка</title>
+    <title>Сообщить об ошибке</title>
     <style type="text/css" media="screen">
       html, body {
         margin: 0;
@@ -10,24 +10,33 @@
         min-height: 100%;
       }
       html {
-        height: 100%;
-        background: black url('./err.jpg') repeat;
-        background-position: bottom;
+        background: black;
         color: white;
-        padding-bottom: 10em;
-        box-sizing: border-box;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
       }
-      header {
+      body {
+        margin-bottom: 10em;
+      }
+      body > header {
         padding-top: 1em;
+        padding-left: 2em;
+      }
+      header.before-data {
+        padding-bottom: 0.7em;
       }
       h2 {
         margin-top: 0;
       }
-      input:checked + * {
-        color: #dfe20f;
+      input:checked ~ * {
+        /*color: #dfe20f; /* bright yellow */
+        color: #ffff44;
+        /*color: #98c379; /* mild green */
       }
-      input:not(:checked) + * {
+      input:checked ~ .hint {
+        /*color: #d19a66; /* mild brown */
+        color: #98c379
+      }
+      input:not(:checked) ~ * {
         text-decoration: line-through;
         color: #aaa;
       }
@@ -39,9 +48,6 @@
         box-sizing: border-box !important;
         background-color: transparent !important;
       }
-      header {
-        padding-left: 2em;
-      }
       ol, ul {
         list-style-type: none;
       }
@@ -52,6 +58,13 @@
         font-size: 1rem;
         margin-top: 0.3rem;
       }
+      a, a:visited {
+        /*color: #ef1621 red */
+        /*#806eff blue */
+        color: #eee;
+        text-decoration: none;
+        border-bottom: dotted 1px #aaa;
+      }
       #output {
         background-color: black;
       }
@@ -61,37 +74,50 @@
       }
     </style>
   </head>
-  <body>
+  <body style="display: none">
     <header>
-      <h2 class="if-error">Информация об ошибке</h2>
-      <h2 class="if-no-error">Сообщить об ошибке</h2>
+      <h2 class="if-error">Информация об ошибках</h2>
     </header>
-    <main id="main-error" style="display: none">
+    <header class="if-no-error">
+      <h2>Сообщить об ошибке</h2>
+      Здесь можно сообщить об ошибках расширения или PAC-скриптов
+    </header>
+    <main id="main-error">
       <ol>
-        <li><ol class='error-info'>
-          <li class="if-error">Тип ошибки: <span>неизвестно</span></li>
-          <li class="if-error"><pre><code id="output" class='hljs'></code></pre></li>
-          <li class="if-error">
+        <li class="if-error"><ol class='error-info'>
+          <li><pre><code id="output" class='hljs'></code></pre></li>
+          <li>
             <a class='btn' href target="_blank" id="github-search">Искать ошибку на GitHub</a>
           </li>
         </ol></li>
-        <li><input type="checkbox" checked><span id='user-agent'></span></li>
-        <li><input type="checkbox" checked><span id='platform'></span></li>
-        <li><input type="checkbox" checked disabled><span>Ваш IP будет записан! (особенность чужого сервера)</span></li>
+        <li><header class="before-data">
+          <span class="if-error">Помогите нам, отправив данные об этих ошибках:</span>
+          <span class="if-no-error">Будут отправлены следующие данные:</span>
+        </header></li>
+        <li class="if-error"><input type="checkbox" checked disabled> <span class="hint">Данные, приведённые выше</span></li>
+        <li><input type="checkbox" checked> <span class="hint">Браузер:</span> <span id='user-agent'></span></li>
+        <li><input type="checkbox" checked> <span class="hint">ОС:</span> <span id='platform'></span></li>
+        <li><input type="checkbox" checked> <span class="hint">Версия расширения:</span> <span id='version'>0.0.0.15</span></li>
+        <li><input type="checkbox" checked disabled>
+          <span>
+            Ваш IP</span> <span class="hint"> будет записан сервером <a href="https://sentry.io">sentry.io</a>
+            для противодействия <a href="https://ru.wikipedia.org/wiki/DoS-атака">DoS-атакам</a>
+          </span>
+        </li>
         <li><textarea placeholder='Ваш комментарий (опционально)' id="comment">
-К этой ошибке приводит следующая очерёдность действий:
+К этой ошибке приводит следующая последовательность действий:
 1. ...
 2. ...</textarea>
         </li>
         <li>
-          <button id="raven-report">Отправить автору</button> или
-          <a class='btn' href target="_blank" id="github-report">Экспорт данных на GitHub</a>
+          <button id="sentry-report">Отправить автору</button> или
+          <a class="btn" href target="_blank" id="github-report">Экспорт данных на GitHub</a>
         </li>
       </ol>
     </main>
     <script src="./vendor/raven3.8.1.min.js"></script>
     <link rel="stylesheet" href="./vendor/highlight.js/styles/atom-one-dark.css">
     <script src="./vendor/highlight.js/highlight9.8.0.min.js"></script>
-    <script src="./index.js" charset="utf-8"></script>
+    <script src="./index.js" charset="utf-8" async></script>
   </body>
 </html>

@@ -1,4 +1,5 @@
 'use strict';
+
 /* global Raven:false, hljs:false */
 +function() {
   /*
@@ -33,7 +34,7 @@
   //document.addEventListener('ravenFailure',
   //  () => alert('Ошибка sentry.io! (подробности недоступны)'));
 
-  document.getElementById('raven-report').onclick = () => {
+  document.getElementById('sentry-report').onclick = () => {
 
     const e = err.error || err;
     let comment = document.getElementById('comment').value.trim();
@@ -50,20 +51,20 @@
     fetch('https://sentry.io/api/116007/store/?sentry_version=7&sentry_client=raven-js%2F3.8.1&sentry_key=bc534321358f455b9ae861740c2d3af8', {
       method: 'POST',
       body: JSON.stringify({
-        culrpit:, // filename of oldest stack frame
-        event_id:,// uuid of event
+        culrpit: '', // filename of oldest stack frame
+        event_id: '',// uuid of event
         exception: {
           values: [{
             type: error.name,
             value: error.message,
             stacktrace: {
-              frames: [
+              frames: [{
                 colno: error.colno,
                 filename:"chrome-extension://bla-bla",
                 function: "bgPage.apis.errorHandlers.installListenersOn",
                 in_app: true,
                 lineno: error.lineno
-              ]
+              }]
             } // oldest to newest
           }]
         },
@@ -73,9 +74,9 @@
         release: '0.0.0.15',
         request: {
           headers: {
-            User-Agent:,
+            'User-Agent':'',
           },
-          url:,
+          url:'',
         },
         extra: extra,
       })
@@ -124,12 +125,12 @@ ${json}
     document.querySelectorAll('.if-no-error').forEach( (ner) => ner.style.display = 'none' );
   }
 
-  document.querySelector('#main-error').style.display = '';
+  document.body.style.display = '';
 
   const ta = document.querySelector('textarea');
-  document.body.style.background =
+  document.documentElement.style.background =
       'linear-gradient(to bottom, black ' +
       (ta.offsetTop + parseInt(getComputedStyle(ta).height)*0.6) +
-      'px, transparent)';
+      'px, transparent), url("./err.jpg") bottom';
 
 }();
