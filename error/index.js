@@ -9,34 +9,45 @@
   }).install();
   */
 
-  document.querySelector('#user-agent').innerText = navigator.userAgent;
-  document.querySelector('#platform').innerText = navigator.platform;
-  const originalComment = document.querySelector('#comment').value.trim();
-  let json = decodeURIComponent(window.location.search.substr(1).trim());
-  let err;
-  const output = document.getElementById('output');
-  if (json) {
-    try {
-      err = JSON.parse(json);
-    } catch(e) {
-      err = { raw: json };
-    }
-  }
-  if (!(err && Object.keys(err).length)) {
-    output.innerHTML = 'Ошибок не найдено. ' +
-      'Оставьте, пожалуйста, подробный комментарий.';
-  } else {
-    json = JSON.stringify(err, null, 2);
-    output.innerHTML = hljs.highlight('json', json).value;
-  }
+  const clientInfo = {
+    userAgent: navigator.userAgent,
+    platform: navigator.platform,
+    version: '0.0.0.15'
+  };
+  document.querySelector('#c-user-agent').innerText = clientInfo.userAgent;
+  document.querySelector('#c-platform').innerText = clientInfo.platform;
+  document.querySelector('#c-version').innerText = clientInfo.version;
 
-  //document.addEventListener('ravenSuccess', () => alert('Готово'));
-  //document.addEventListener('ravenFailure',
-  //  () => alert('Ошибка sentry.io! (подробности недоступны)'));
+  const originalComment = document.querySelector('#comment').value.trim();
+
+  const jsonParcel = decodeURIComponent(window.location.search.substr(1).trim());
+  const output = document.getElementById('output');
+
+  let parcel;
+  let err;
+  let title = '';
+
+  if (jsonParcel) {
+    try {
+      parcel = JSON.parse(jsonParcel);
+    } catch(e) {
+      parcel = { raw: jsonParcel };
+    }
+    parcel = Object.assign(clientInfo, parcel);
+    err = parcel.error || parcel;
+    title = err && err.message || err || 'Untitled';
+
+    output.innerHTML = hljs.highlight(
+      'json',
+      JSON.stringify(parcel, null, 2)
+    ).value;
+    document.querySelectorAll('.if-no-error').forEach( (ner) => ner.style.display = 'none' );
+  } else {
+    document.querySelectorAll('.if-error').forEach( (er) => er.style.display = 'none' );
+  }
 
   document.getElementById('sentry-report').onclick = () => {
 
-    const e = err.error || err;
     let comment = document.getElementById('comment').value.trim();
     if (comment === originalComment) {
       comment = '';
@@ -95,7 +106,6 @@
   };
 
   const version = 'NOT YET';
-  const title = err && err.message || err || 'Untitled';
   document.getElementById('github-search').href =
     'https://rebrand.ly/ac-search-issues?q=' + encodeURIComponent(title);
 
@@ -118,12 +128,6 @@ ${json}
 
   const btnCssText = window.getComputedStyle( document.querySelector('button') ).cssText;
   document.querySelectorAll('.btn').forEach( (btn) => btn.style.cssText = btnCssText );
-
-  if (!json) {
-    document.querySelectorAll('.if-error').forEach( (er) => er.style.display = 'none' );
-  } else {
-    document.querySelectorAll('.if-no-error').forEach( (ner) => ner.style.display = 'none' );
-  }
 
   document.body.style.display = '';
 
