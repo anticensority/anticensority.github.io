@@ -20,18 +20,21 @@
 
   const originalComment = document.querySelector('#comment').value.trim();
 
-  const jsonParcel = decodeURIComponent(window.location.search.substr(1).trim());
   const output = document.getElementById('output');
 
   let parcel;
   let err;
   let title = '';
 
+  let jsonParcel = window.location.search.substr(1).trim();
   if (jsonParcel) {
     try {
-      parcel = JSON.parse(jsonParcel);
+      parcel = JSON.parse(atob(jsonParcel));
     } catch(e) {
-      parcel = { raw: jsonParcel };
+      parcel = {
+        raw: jsonParcel,
+        parseError: e.message,
+      };
     }
     parcel = Object.assign(clientInfo, parcel);
     err = parcel.error || parcel;
