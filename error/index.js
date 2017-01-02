@@ -29,7 +29,7 @@
   let jsonParcel = decodeURIComponent( decodeURIComponent(window.location.search.substr(1).trim()) );
   if (jsonParcel) {
     try {
-      parcel = JSON.parse(jsonParcel);
+      parcel = JSON.parse(decodeURIComponent(atob(jsonParcel)));
     } catch(e) {
       parcel = {
         raw: jsonParcel,
