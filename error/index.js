@@ -26,7 +26,7 @@
   let err;
   let title = '';
 
-  let jsonParcel = decodeURIComponent(window.location.search.substr(1).trim());
+  let jsonParcel = decodeURIComponent( decodeURIComponent(window.location.search.substr(1).trim()) );
   if (jsonParcel) {
     try {
       parcel = JSON.parse(jsonParcel);
