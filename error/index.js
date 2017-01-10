@@ -9,10 +9,12 @@
   }).install();
   */
 
+  const params = new URL(window.location.href).searchParams;
+
   const clientInfo = {
     userAgent: navigator.userAgent,
     platform: navigator.platform,
-    version: '0.0.0.15'
+    version: params.get('version') || '0.0.0.15',
   };
   document.querySelector('#c-user-agent').innerText = clientInfo.userAgent;
   document.querySelector('#c-platform').innerText = clientInfo.platform;
@@ -26,7 +28,7 @@
   let err;
   let title = '';
 
-  let jsonParcel = decodeURIComponent( decodeURIComponent(window.location.search.substr(1).trim()) );
+  let jsonParcel = params.get('json');
   if (jsonParcel) {
     try {
       parcel = JSON.parse(jsonParcel);
@@ -108,7 +110,7 @@
 
   };
 
-  const version = 'NOT YET';
+  const version = params.version || '0.0.0.15';
   document.getElementById('github-search').href =
     'https://rebrand.ly/ac-search-issues?q=' + encodeURIComponent(title);
 
