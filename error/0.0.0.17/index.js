@@ -140,6 +140,6 @@ ${json}
   document.documentElement.style.background =
       'linear-gradient(to bottom, black ' +
       (ta.offsetTop + parseInt(getComputedStyle(ta).height)*0.6) +
-      'px, transparent), url("./err.jpg") bottom';
+      'px, transparent), black url("./err.jpg") bottom';
 
 }();
