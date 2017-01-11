@@ -28,7 +28,7 @@
   let err;
   let title = '';
 
-  let jsonParcel = params.get('json');
+  let jsonParcel = params.get('json') || window.location.search.substr(1) + window.location.hash;
   if (jsonParcel) {
     try {
       parcel = JSON.parse(jsonParcel);
