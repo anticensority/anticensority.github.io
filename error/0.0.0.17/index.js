@@ -112,7 +112,7 @@
 
   const version = params.version || '0.0.0.15';
   document.getElementById('github-search').href =
-    'https://rebrand.ly/ac-search-issues?q=' + encodeURIComponent(title);
+    'https://rebrand.ly/ac-issues?q=' + encodeURIComponent(title);
 
   document.getElementById('github-report').onclick = function() {
 
