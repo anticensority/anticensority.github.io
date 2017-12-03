@@ -13,7 +13,7 @@
 
   const clientInfo = {
     userAgent: decodeURIComponent(params.get('useragent') || "null"),
-    platform: navigator.platform,
+    platform: decodeURIComponent(params.get('platform') || "null"),
     version: params.get('version') || '0.0.0.15',
   };
   document.querySelector('#c-user-agent').innerText = clientInfo.userAgent;
