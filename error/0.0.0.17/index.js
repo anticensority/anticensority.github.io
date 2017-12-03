@@ -12,7 +12,7 @@
   const params = new URL(window.location.href).searchParams;
 
   const clientInfo = {
-    userAgent: navigator.userAgent,
+    userAgent: params.get('useragent') || navigator.userAgent,
     platform: navigator.platform,
     version: params.get('version') || '0.0.0.15',
   };
